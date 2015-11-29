@@ -1,7 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include <string>
-
+#include <ostream>
+#include <iostream>
 class Matrix
 {
 public:
@@ -35,15 +36,16 @@ private:
 };
 
 
-std::ostream & operator <<( std::ostream & s, const Matrix & v )
+inline std::ostream & operator <<( std::ostream & s, const Matrix & v )
 {
+
     for(int i=0; i<v.getSize(); i++)
     {
         for(int j=0; j<v.getSize(); j++)
         {
-            s<<v.getValue(i,j);
+            s<<v.getValue(i,j)<<" ";
         }
-        //s<<"\n";
+        s<<"\n";
 
     }
     return s ;

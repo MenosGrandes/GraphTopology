@@ -31,12 +31,19 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Graph.h" />
+		<Unit filename="include/GraphCalculations.h" />
 		<Unit filename="include/Matrix.h" />
+		<Unit filename="include/Node.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Graph.cpp" />
+		<Unit filename="src/GraphCalculations.cpp" />
 		<Unit filename="src/Matrix.cpp" />
+		<Unit filename="src/Node.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

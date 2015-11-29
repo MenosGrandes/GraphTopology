@@ -1,8 +1,44 @@
 # depslib dependency file v1.0
-1448813547 source:/home/menosgrandes/Pulpit/Topo/grafy/main.cpp
+1448838792 source:/home/menosgrandes/Pulpit/Topo/grafy/main.cpp
 	<iostream>
+	"Graph.h"
+
+1448837552 /home/menosgrandes/Pulpit/Topo/grafy/include/Matrix.h
+	<string>
+	<ostream>
+	<iostream>
+
+1448838860 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Matrix.cpp
 	"Matrix.h"
 
-1448813836 /home/menosgrandes/Pulpit/Topo/grafy/include/Matrix.h
+1448836317 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Node.cpp
+	"Node.h"
+	<iostream>
+
+1448833769 /home/menosgrandes/Pulpit/Topo/grafy/include/Node.h
+	<vector>
+	<ostream>
+
+1448831100 source:/home/menosgrandes/Pulpit/Topo/grafy/src/NeighborList.cpp
+	"NeighborList.h"
+
+1448831290 /home/menosgrandes/Pulpit/Topo/grafy/include/NeighborList.h
 	<string>
+	<vector>
+	<ostream>
+
+1448838669 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Graph.cpp
+	"Graph.h"
+
+1448838620 /home/menosgrandes/Pulpit/Topo/grafy/include/Graph.h
+	"Node.h"
+	"Matrix.h"
+	<random>
+	<algorithm>
+
+1448838308 source:/home/menosgrandes/Pulpit/Topo/grafy/src/GraphCalculations.cpp
+	"GraphCalculations.h"
+
+1448837476 /home/menosgrandes/Pulpit/Topo/grafy/include/GraphCalculations.h
+	"Graph.h"
 
