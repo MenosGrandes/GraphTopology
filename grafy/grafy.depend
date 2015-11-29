@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1448813547 source:/home/menosgrandes/Pulpit/Topo/grafy/main.cpp
+	<iostream>
+	"Matrix.h"
+
+1448813836 /home/menosgrandes/Pulpit/Topo/grafy/include/Matrix.h
+	<string>
+
