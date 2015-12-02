@@ -9,10 +9,11 @@ public:
     Matrix(std::string filename);
     Matrix();
     Matrix(int x);
-    Matrix(int x,bool *data);
+    Matrix(int x,int *data);
     virtual ~Matrix();
     int getSize() const;
-    bool getValue(int x,int y) const;
+    void setValue(int x,int y,int val);
+    int getValue(int x,int y) const;
 protected:
 private:
     /** Size of Matrix*/
@@ -32,7 +33,7 @@ private:
     there is edge between 1 and 2 , but non between 4 and 1.
 
     */
-    bool * m_data;
+    int * m_data;
 };
 
 

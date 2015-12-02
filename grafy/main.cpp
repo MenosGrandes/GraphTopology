@@ -1,53 +1,40 @@
 #include <iostream>
 #include "Graph.h"
+#include <time.h>
+#define INF 9999
 int main()
 {
 
-    srand(time(0));
+    srand(time(0));  //zeby random dzialal
+    /*Przykladowe dane z tego filmiku : https://www.youtube.com/watch?v=Qdt5WJVkPbY*/
+int *data = new int[16];
 
+data[0]=0;
+data[1]=8;
+data[2]=999;
+data[3]=1;
 
-    /**Macierz sasiedztwa*/
-    bool * data=new bool[9];
-    data[0]=false;
-    data[1]=true;
-    data[2]=false;
-    data[3]=true;
-    data[4]=false;
-    data[5]=true;
-    data[6]=false;
-    data[7]=true;
-    data[8]=false;
+data[4]=999;
+data[5]=0;
+data[6]=1;
+data[7]=999;
 
-    Matrix  m (3,data);
-//    std::cout<<m;
-    /**Lista sasiedztwa*/
-    std::vector<Node> neighborList;
-    Node n1(0);
-    Node n2(1);
-    Node n3(2);
+data[8]=4;
+data[9]=999;
+data[10]=0;
+data[11]=999;
 
-    n1.addNeighbor(1);
+data[12]=999;
+data[13]=2;
+data[14]=9;
+data[15]=0;
+Matrix m(4,data);
 
-    n2.addNeighbor(0);
-    n2.addNeighbor(2);
-
-    n3.addNeighbor(1);
-
-    neighborList.push_back(n1);
-    neighborList.push_back(n2);
-    neighborList.push_back(n3);
-
-//
-//    for(Node n : neighborList)
-//    {
-//        std::cout<<n;
-//    }
-
+/**Macierz sasiedztwa WARSHALL*/
     Graph g(m);
-    Graph g2(neighborList);
-    std::cout<<g2<<"\n\n\n";
-    std::cout<<g<<"\n\n\n\n\n";
+    std::cout<<"PRZED:\n"<<g<<"\n";
+    g.Matrix_Warshall();
+    std::cout<<"PO:\n"<<g<<"\n";
 
-    Graph g3(100000,1000);
-    std::cout<<g3;
+
 }

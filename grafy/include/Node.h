@@ -7,7 +7,7 @@ class Node
 {
 public:
     Node();
-    Node(int owner,const std::vector<int> neighbours);
+    Node(int owner,const std::vector<int> neighbours); //vector intow, nazwa wektora
     Node(int owner);
 
     virtual ~Node();

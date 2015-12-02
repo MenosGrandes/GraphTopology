@@ -39,6 +39,7 @@
 		<Unit filename="include/GraphCalculations.h" />
 		<Unit filename="include/Matrix.h" />
 		<Unit filename="include/Node.h" />
+		<Unit filename="include/enum.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Graph.cpp" />
 		<Unit filename="src/GraphCalculations.cpp" />
