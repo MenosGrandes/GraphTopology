@@ -24,7 +24,7 @@ public:
     Graph (const Matrix &m);
     void Matrix_Warshall();
     void Matrix_DFS();
-    void recurentDFS(int vertIterator,int * vertChecked);
+    void Matrix_recurentDFS(int vertIterator,int * vertChecked);
     Matrix getMatrix() const;
 private:
     Matrix m_nodesMatrix;
@@ -46,21 +46,21 @@ private:
 };
 inline std::ostream & operator <<( std::ostream & s, const Graph & graph )
 {
-    if(graph.m_type==GRAPH::G_LIST)
-    {
-        s<<"GRAPH LIST: \n";
-        const std::vector<Node> nodes= graph.getNodes();
-        for(size_t i=0; i<graph.getVertices(); i++)
-        {
-            s<<nodes[i];
-        }
-    }
-    else if(graph.m_type == GRAPH::G_MATRIX)
-    {
+//    if(graph.m_type==GRAPH::G_LIST)
+//    {
+//        s<<"GRAPH LIST: \n";
+//        const std::vector<Node> nodes= graph.getNodes();
+//        for(size_t i=0; i<graph.getVertices(); i++)
+//        {
+//            s<<nodes[i];
+//        }
+//    }
+//    else if(graph.m_type == GRAPH::G_MATRIX)
+//    {
         s<<"GRAPH LIST: \n";
         s<<graph.getMatrix();
-
-    }
+//
+//    }
     return s ;
 }
 #endif // GRAPH_H

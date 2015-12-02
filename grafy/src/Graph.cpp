@@ -23,64 +23,64 @@ Graph::Graph(int maxVert,int maxEdges,float density,GRAPH type)
 
 
     m_type=type;
-    if(type == GRAPH::G_LIST)
-    {
-        m_vertices= maxVert;
-        for(size_t i=0; i<m_vertices; i++)
-        {
-            m_nodesVector.push_back(Node(i));
-        }
+//    if(type == GRAPH::G_LIST)
+//    {
+//        m_vertices= maxVert;
+//        for(size_t i=0; i<m_vertices; i++)
+//        {
+//            m_nodesVector.push_back(Node(i));
+//        }
+//
+//
+//        for(size_t i=0; i<m_vertices; i++)
+//        {
+//
+//            for(size_t j=0; j<maxEdges; j++)
+//            {
+//                int randomNumber = rand()%m_vertices ;
+//                if(randomNumber!=i  )
+//                {
+//                    if(!isEdge(i,randomNumber))
+//                    {
+//                        addEdge(i,randomNumber);
+//                    }
+//
+//                }
+//            }
+//
+//
+//        }
+//    }
+//    else if(m_type == GRAPH::G_MATRIX)
+//    {
+
+    int edgeCounter=0;
 
 
-        for(size_t i=0; i<m_vertices; i++)
-        {
-
-            for(size_t j=0; j<maxEdges; j++)
-            {
-                int randomNumber = rand()%m_vertices ;
-                if(randomNumber!=i  )
-                {
-                    if(!isEdge(i,randomNumber))
-                    {
-                        addEdge(i,randomNumber);
-                    }
-
-                }
-            }
-
-
-        }
-    }
-    else if(m_type == GRAPH::G_MATRIX)
-    {
-
-        int edgeCounter=0;
-
-
-        m_nodesMatrix = Matrix(maxVert);
-        int xRand=0,Yrand=0;
+    m_nodesMatrix = Matrix(maxVert);
+    int xRand=0,Yrand=0;
 //dopoki nie mamy porzadanej gestosci wierzcholkow na krawedzie wykonuj
+    do
+    {
+        //dopoki wylosowane liczby sa takie same losuj nastepne tak aby nie byly takie same
         do
         {
-            //dopoki wylosowane liczby sa takie same losuj nastepne tak aby nie byly takie same
-            do
-            {
-                xRand=random() % maxVert;
-                Yrand=random() % maxVert;
-            }
-            while(xRand == Yrand);
-            //sprawdz czy jest krawedz pomiedzy tymi wierzcholkami. Jezeli jest to przejdz do nastepnej iteracji petli ( continue)
-            if(isEdge(xRand,Yrand))
-            {
-                continue;
-            }
-            addEdge(xRand,Yrand);
-            edgeCounter++;
-
+            xRand=random() % maxVert;
+            Yrand=random() % maxVert;
         }
-        while(float(edgeCounter / maxVert)<density);
+        while(xRand == Yrand);
+        //sprawdz czy jest krawedz pomiedzy tymi wierzcholkami. Jezeli jest to przejdz do nastepnej iteracji petli ( continue)
+        if(isEdge(xRand,Yrand))
+        {
+            continue;
+        }
+        addEdge(xRand,Yrand);
+        edgeCounter++;
 
     }
+    while(float(edgeCounter / maxVert)<density);
+
+//    }
 }
 
 Graph::Graph(const Matrix& m)
@@ -90,14 +90,44 @@ Graph::Graph(const Matrix& m)
     m_nodesMatrix=m;
 
 }
+/**
 
+Graf przyjmuje vector nodow. ALE!!!!
+Przeksztalca go od razu na macierz, takie male oszukanstwo ale wiekszosc implementacji,jakie znalazlem, tak dziala.
+*/
 Graph::Graph(const std::vector<Node> v)
 {
-    m_vertices=v.size();
-    for(size_t i=0; i<v.size(); i++)
+
+    m_nodesMatrix = Matrix(v.size());
+    for(int i=0; i<m_nodesMatrix.getSize(); i++)
     {
-        m_nodesVector.push_back(v[i]);
+
+        for(int j=0; j<m_nodesMatrix.getSize(); j++)
+        {
+            if(i==j)
+            {
+                m_nodesMatrix.setValue(i,j,0);
+            }
+            else
+            {
+                m_nodesMatrix.setValue(i,j,999);
+            }
+        }
+
     }
+    for(int nodes=0; nodes<v.size(); nodes++)
+    {
+        Node temp=v[nodes];
+        const std::vector<NumberCost> v_neighbors = temp.getNeighbours();
+        const int size_neighbors = v_neighbors.size();
+        for(int neighbors=0; neighbors<size_neighbors; neighbors++)
+        {
+            m_nodesMatrix.setValue(temp.getOwner(),v_neighbors[neighbors].index,v_neighbors[neighbors].cost);
+        }
+
+
+    }
+
 }
 
 
@@ -116,46 +146,46 @@ bool Graph::isEdge (int v1, int v2)
 
 
 
-    switch(m_type)
-    {
+//    switch(m_type)
+//    {
+//
+//    case G_LIST :
+//
+//        for(std::vector<NumberCost>::size_type i = 0; i != m_nodesVector[v1].getNeighbours().size(); i++)
+//        {
+//            if(m_nodesVector[v1].getNeighbours()[i].index==v2)
+//            {
+//                return true;
+//            }
+//
+//        }
+//        return false;
+//
+//        break;
+//    case G_MATRIX:
 
-    case G_LIST :
-
-        for(std::vector<int>::size_type i = 0; i != m_nodesVector[v1].getNeighbours().size(); i++)
-        {
-            if(m_nodesVector[v1].getNeighbours()[i]==v2)
-            {
-                return true;
-            }
-
-        }
-        return false;
-
-        break;
-    case G_MATRIX:
-
-        return (m_nodesMatrix.getValue(v1,v2) >0);
-
-        break;
-    }
-
-    return false;
+    return (m_nodesMatrix.getValue(v1,v2) >0);
+//
+//        break;
+//    }
+//
+//    return false;
 
 }
 void Graph::addEdge(int a, int b,int c)
 {
 
-    switch(m_type)
-    {
+//    switch(m_type)
+//    {
+//
+//    case G_LIST :
+//        m_nodesVector[a].addNeighbor(NumberCost(b,c));
+//        break;
+//    case G_MATRIX:
 
-    case G_LIST :
-        m_nodesVector[a].addNeighbor(b);
-        break;
-    case G_MATRIX:
-
-        m_nodesMatrix.setValue(a,b,c);
-        break;
-    }
+    m_nodesMatrix.setValue(a,b,c);
+    //        break;
+//    }
 }
 
 // Ladnie wyjasnione https://www.youtube.com/watch?v=Qdt5WJVkPbY
@@ -171,11 +201,11 @@ void Graph::Matrix_Warshall()
             for(int to=0; to<m_nodesMatrix.getSize(); to++)
             {
 // jezeli wartosc ktora obliczono jest miejsza niz wartosc ktora jest to znaczy ze ta sciezka jest krotsza.
-m_nodesMatrix.setValue(from,to,
-                                std::min(m_nodesMatrix.getValue(from,to),
-                                        m_nodesMatrix.getValue(from,k)+m_nodesMatrix.getValue(k,to)
-                                        )
-                        );
+                m_nodesMatrix.setValue(from,to,
+                                       std::min(m_nodesMatrix.getValue(from,to),
+                                                m_nodesMatrix.getValue(from,k)+m_nodesMatrix.getValue(k,to)
+                                               )
+                                      );
 
             }
 
@@ -195,20 +225,20 @@ void Graph::Matrix_DFS()
     for (int i = 0; i < m_nodesMatrix.getSize(); i++)
         if (vertChecked[i]==NOT_VISITED)
         {
-            recurentDFS(i, vertChecked);
+            Matrix_recurentDFS(i, vertChecked);
         }
 
 
 
 }
-void Graph::recurentDFS(int vertIterator, int* vertChecked)
+void Graph::Matrix_recurentDFS(int vertIterator, int* vertChecked)
 {
     vertChecked[vertIterator]=VISITED;
 
     for (int j = 0; j < m_nodesMatrix.getSize(); j++)
         if (vertChecked[j]==NOT_VISITED && j != vertIterator && m_nodesMatrix.getValue(vertIterator,j))
         {
-            recurentDFS(j, vertChecked);
+            Matrix_recurentDFS(j, vertChecked);
         }
 }
 

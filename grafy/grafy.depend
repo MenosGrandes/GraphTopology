@@ -125,17 +125,17 @@
 1449077388 source:/home/menosgrandes/Pulpit/grafy/src/Graph.cpp
 	"Graph.h"
 
-1449077926 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Graph.cpp
+1449087706 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Graph.cpp
 	"Graph.h"
 
-1449074577 /home/menosgrandes/Pulpit/Topo/grafy/include/Graph.h
+1449087645 /home/menosgrandes/Pulpit/Topo/grafy/include/Graph.h
 	"Node.h"
 	"Matrix.h"
 	<random>
 	<algorithm>
 	"enum.h"
 
-1449069882 /home/menosgrandes/Pulpit/Topo/grafy/include/Node.h
+1449086905 /home/menosgrandes/Pulpit/Topo/grafy/include/Node.h
 	<vector>
 	<ostream>
 
@@ -155,7 +155,12 @@
 1449071070 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Matrix.cpp
 	"Matrix.h"
 
-1449069883 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Node.cpp
+1449086655 source:/home/menosgrandes/Pulpit/Topo/grafy/src/Node.cpp
 	"Node.h"
 	<iostream>
+
+1449087916 source:/home/menosgrandes/Pulpit/Topo/grafy/main.cpp
+	<iostream>
+	"Graph.h"
+	<time.h>
 

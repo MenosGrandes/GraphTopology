@@ -10,7 +10,7 @@ Node::~Node()
 {
     //dtor
 }
-Node::Node(int owner, const std::vector<int> neighbours):m_owner(owner)
+Node::Node(int owner, const std::vector<NumberCost> neighbours):m_owner(owner)
 {
     for(size_t i=0; i<neighbours.size(); i++)
     {
@@ -21,7 +21,7 @@ Node::Node(int owner):m_owner(owner)
 {
     m_owner=owner;
 }
-std::vector<int> Node::getNeighbours() const
+std::vector<NumberCost> Node::getNeighbours() const
 {
     return m_neighbours;
 }
@@ -32,7 +32,7 @@ int Node::getOwner() const
 }
 
 
-void Node::addNeighbor(int n)
+void Node::addNeighbor(NumberCost n)
 {
     m_neighbours.push_back(n);
 }
