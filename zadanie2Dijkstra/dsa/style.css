@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+/*Odpowiedzialne za miejsce rysowania*/
+.implementation {
+    text-align: center;
+    margin: 0 auto;
+width: 90%;
+height: 600px;
+
+}
+html,body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: white;
+}
+#inside
+{
+	
+	width: 900px;
+    margin: 0 auto;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    background-color: white;
+    min-height: 400px;
+    padding: 3em;
+}
+/*Kazdy wertex tak wyglada*/
+
+.vertex {
+    stroke: black;
+    fill: #264d00;
+}
+
+/* Jezeli myszka jest nad*/
+.vertex:hover
+{
+	fill :#ffffff
+	
+}
+/*Jezeli jest start, czyli wartosc m_start==true*/
+.vertex.m_start
+{	
+	fill :#0000cc;
+}
+/*Jezeli jest koniec, czyli wartosc m_end==true*/
+.vertex.m_end
+{
+	fill : #ff0000;
+}
+button{
+ margin: 0 5%;
+}
