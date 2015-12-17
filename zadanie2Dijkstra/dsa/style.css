@@ -3,9 +3,19 @@
 .implementation {
     text-align: center;
     margin: 0 auto;
-width: 90%;
-height: 600px;
 
+
+}
+text {
+    font: 8px sans-serif;
+}
+.cost
+{
+	
+	fill: black;
+}
+.line {
+    stroke: red;
 }
 html,body {
     margin: 0;
@@ -27,7 +37,7 @@ html,body {
 /*Kazdy wertex tak wyglada*/
 
 .vertex {
-    stroke: black;
+    stroke: #113662;
     fill: #264d00;
 }
 
