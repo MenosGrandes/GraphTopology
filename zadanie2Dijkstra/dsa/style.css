@@ -60,3 +60,10 @@ html,body {
 button{
  margin: 0 5%;
 }
+.selection {
+    stroke          : gray;
+    stroke-width    : 3px;
+    stroke-dasharray: 4px;
+    stroke-opacity  : 0.5;
+    fill            : transparent;
+}

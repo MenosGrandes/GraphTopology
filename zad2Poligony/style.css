@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+/*Odpowiedzialne za miejsce rysowania*/
+.implementation {
+    text-align: center;
+   background-color: #000;
+    width: 800px;
+    height: 600px;
+
+}
+text {
+    font: 8px sans-serif;
+}
+.cost
+{
+	
+	fill: black;
+}
+.line {
+    stroke: red;
+}
+
+
+.click-circle {
+    fill: white;
+}

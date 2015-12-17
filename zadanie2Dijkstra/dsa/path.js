@@ -1,8 +1,22 @@
+function EuclideanDistance(first,second)
+{
+return Math.sqrt(Math.pow((first.x - second.x),2) + Math.pow((first.y - second.y),2));
+}
+
 /*Zwyklu punkt 2d*/
 function Point2d(x, y) {
 	this.x = x;
 	this.y = y;
 }
+Point2d.prototype =
+	{
+		toString : function()
+		{
+			return this.x + " " + this.y;
+			
+		}
+		
+	}
 /*
  * Edge ma : swoj id koszt przejscia wierzcholek z ktorego ma isc wierzcholek do
  * ktorego ma isc
@@ -84,7 +98,7 @@ Vertex.prototype = {
 			var edge = new Edge("e" + this.id + "_" + vert.m_id, this, vert);
 			this.addEdge(edge);
 			vert.addEdge(edge);
-			
+			edge.m_cost=EuclideanDistance(this.m_position, vert.m_position);
 			return edge;
 		}
 		return null;
@@ -101,7 +115,8 @@ Vertex.prototype = {
 	}
 
 }
-
+/*Prawdopodobienstwo wystapienia krawedzi*/
+var probabilityofEdge=0.80;
 /* Rozdzielczosc calego obrazka rysowanego */
 var drawWidth = 900;/* szerokosc */
 var drawHeight = 650;/* wysokosc */
@@ -140,7 +155,7 @@ for ( var i = 0; i < vertWidth; i++) {
 		// Add down
 		if (j < vertHeight - 1) {
 			// Add a 75% chance of having an edge, just for fun
-			if (Math.random() < 0.50) {
+			if (Math.random() < probabilityofEdge) {
 				var downIx = curIx + 1;
 				edges[edgeCount++] = curVertex
 						.connectVertices(vertices[downIx]);
@@ -152,7 +167,7 @@ for ( var i = 0; i < vertWidth; i++) {
 		// Add right
 		if (i < vertWidth - 1) {
 			// Add a 75% chance of having an edge, just for fun
-			if (Math.random() < 0.50) {
+			if (Math.random() < probabilityofEdge) {
 				var rightIx = curIx + vertHeight;
 				edges[edgeCount++] = curVertex
 						.connectVertices(vertices[rightIx]);
@@ -197,7 +212,7 @@ var lines = d3.select(".implementation").selectAll("line")
 		.attr("class", "line").attr("m_id", function(d) {
 			return d.m_id;
 		});
-/*Dodaj literki oznaczajace koszt przejscia miedzy wezlami*/
+/*Dodaj literki oznaczajace koszt przejscia miedzy wezlami
  var weights = d3.select(".implementation").selectAll(".weight").data(edges).enter()
  .append("text").attr("x", function(d) {
 	 if (d.m_from.m_position.x == d.m_to.m_position.x) 
@@ -214,7 +229,7 @@ var lines = d3.select(".implementation").selectAll("line")
  })
  .text(function(d) { return d.m_cost; })
 .attr("class", "cost");
-
+*/
 var startVertex = null;
 var endVertex = null;
 
@@ -278,3 +293,74 @@ $(".vertex").click(function() {
 function run() {
 	console.log("run");
 }
+
+var selectionRectangle = d3.select(".implementation")
+.on( "mousedown", mouseDown)
+.on("mouseup",mouseUp);
+
+function mouseDown()
+{
+    var p = d3.mouse( this);
+    d3.select(".implementation").select(".selection").remove();
+    d3.select(".implementation").append( "rect")
+    .attr({
+        rx      : 6,
+        ry      : 6,
+        class   : "selection",
+        x       : p[0],
+        y       : p[1],
+        width   : 0,
+        height  : 0,
+        id      : "checkRect"
+    });
+    
+   selectionRectangle.on("mousemove", mouseMove);
+   
+}
+function mouseMove()
+{
+	 var s = d3.select(".implementation").select( "rect.selection");
+
+	    if( !s.empty()) {
+	        var p = d3.mouse( this),
+
+	            d = {
+	                x       : parseInt( s.attr( "x"), 10),
+	                y       : parseInt( s.attr( "y"), 10),
+	                width   : parseInt( s.attr( "width"), 10),
+	                height  : parseInt( s.attr( "height"), 10)
+	            },
+	            move = {
+	                x : p[0] - d.x,
+	                y : p[1] - d.y
+	            }
+	        ;
+
+	        if( move.x < 1 || (move.x*2<d.width)) {
+	            d.x = p[0];
+	            d.width -= move.x;
+	        } else {
+	            d.width = move.x;       
+	        }
+
+	        if( move.y < 1 || (move.y*2<d.height)) {
+	            d.y = p[1];
+	            d.height -= move.y;
+	        } else {
+	            d.height = move.y;       
+	        }
+	       
+	        s.attr( d);
+	        //console.log( d);
+	    }
+	    
+}
+function mouseUp()
+{
+	
+	selectionRectangle.on("mousemove", null);
+
+
+
+}
+
