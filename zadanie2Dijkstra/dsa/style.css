@@ -67,3 +67,21 @@ button{
     stroke-opacity  : 0.5;
     fill            : transparent;
 }
+.visited {
+    fill: gray;
+    stroke: gray;
+}
+
+.path {
+    stroke-width: 5;
+    stroke: red;
+    fill: red;
+}
+.pathLine {
+    stroke-width: 3;
+    stroke: purple;
+    fill: purple;
+}
+.processing {
+    fill: yellow;
+}

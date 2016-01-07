@@ -1,86 +1,69 @@
-$("#clear").click(
-function()
-{
+$("#clear").click(function() {
 	d3.select("svg").selectAll("*").remove();
-	Lines=[];
+	Lines = [];
 });
 
-$("#dsl").click(
-		function()
-		{
-			
-			sweep();
-		});
+$("#dsl").click(function() {
 
-
-function sortLines(lines)
-{
-	lines.sort(
-			function(a,b)
-			{
-				return a.start.x - b.start.x;
-			});
-	
-}
-function sweep()
-{
-    for(var i=0;i<Lines.length;i++)
-    	{
-	lineD3 = vis.append("line")
-    .attr("x1", Lines[i].start.x)
-    .attr("y1", 0)
-    .attr("x2", Lines[i].start.x)
-    .attr("y2", 800)
-    .attr("class", "lineSweepStart");
-
-	lineD3 = vis.append("line")
-    .attr("x1", Lines[i].end.x)
-    .attr("y1", 0)
-    .attr("x2", Lines[i].end.x)
-    .attr("y2", 800)
-    .attr("class", "lineSweepEnd");
-////////////////////////////////////////
-	lineD3 = vis.append("line")
-    .attr("x1", Lines[i].start.x)
-    .attr("y1", Lines[i].start.y)
-    .attr("x2", Lines[i].end.x)
-    .attr("y2", Lines[i].start.y)
-    .attr("class", "lineSweepAbove");
-
-	
-	lineD3 = vis.append("line")
-    .attr("x1", Lines[i].start.x)
-    .attr("y1", Lines[i].end.y)
-    .attr("x2", Lines[i].end.x)
-    .attr("y2", Lines[i].end.y)
-    .attr("class", "lineSweepBelow");
-
-	
-	
-	}
-    lineD3=null;
-}
-
-
-function show()
-{
-sortLines(Lines);
-console.log("Lines :");
-	for(var i=0;i<Lines.length;i++  )
-		{
-		console.log("line"+i+" "+Lines[i].toString());
+	sweep();
+	for ( var i = 0; i < Lines.length; i++) {
+		for ( var j = 0; j < Lines.length; j++) {
+//			if (i != j) {
+//				if (Lines[i].chackParallel(Lines[j])) {
+//					console.log("Paralell lines : ");
+//					console.log(Lines[i] + " " + Lines[j]);
+//				}
+			console.log(Lines[i].toString() + " "+Lines[j].toString());
+			}
 		}
-}
-function Point2d(x,y)
-{
-this.x=x;
-this.y=y;
-}
-Point2d.prototype.toString = function()
-{
 
-		return this.x + " " + this.y;
-	
+
+
+});
+
+function sortLines(lines) {
+	lines.sort(function(a, b) {
+		return a.start.x - b.start.x;
+	});
+
+}
+function sweep() {
+	for ( var i = 0; i < Lines.length; i++) {
+		lineD3 = vis.append("line").attr("x1", Lines[i].start.x).attr("y1", 0)
+				.attr("x2", Lines[i].start.x).attr("y2", 800).attr("class",
+						"lineSweepStart");
+
+		lineD3 = vis.append("line").attr("x1", Lines[i].end.x).attr("y1", 0)
+				.attr("x2", Lines[i].end.x).attr("y2", 800).attr("class",
+						"lineSweepEnd");
+		////////////////////////////////////////
+		lineD3 = vis.append("line").attr("x1", Lines[i].start.x).attr("y1",
+				Lines[i].start.y).attr("x2", Lines[i].end.x).attr("y2",
+				Lines[i].start.y).attr("class", "lineSweepAbove");
+
+		lineD3 = vis.append("line").attr("x1", Lines[i].start.x).attr("y1",
+				Lines[i].end.y).attr("x2", Lines[i].end.x).attr("y2",
+				Lines[i].end.y).attr("class", "lineSweepBelow");
+
+	}
+	lineD3 = null;
+}
+
+function show() {
+	sortLines(Lines);
+	console.log("Lines :");
+	for ( var i = 0; i < Lines.length; i++) {
+		console.log("line" + i + " " + Lines[i].toString());
+	}
+}
+function Point2d(x, y) {
+	this.x = x;
+	this.y = y;
+}
+Point2d.prototype.toString = function() {
+
+	return this.x + " " + this.y;
+
 };
 //Point2d.prototype.isBigger= function(point)
 //{
@@ -91,17 +74,24 @@ Point2d.prototype.toString = function()
 //
 //return false;
 //}
-function Line(a,b)
-{
-this.start=a;
-this.end=b;
+function Line(a, b) {
+	this.start = a;
+	this.end = b;
+	this.slope = (b.y - a.y) / (b.x - a.x);
 }
-Line.prototype.toString = function()
-{
+Line.prototype.toString = function() {
 
-		return "Start: "+this.start + " End: " + this.end;
-	
+	return "Start: " + this.start + " End: " + this.end+ " slope: "+this.slope;
+
 };
+Line.prototype.chackParallel = function(line) {
+	if (this.slope == line.slope) {
+		return true;
+	}
+
+	return false;
+
+}
 //Line.prototype.swap = function()
 //{
 //if(this.start.x > this.end.x)
@@ -118,57 +108,44 @@ var lineD3;
 
 var Lines = new Array();
 
+function compare(a, b) {
+	console.log("Sort : " + a.start.x + " " + b.start.x);
 
+}
 
-function compare(a,b) {
-	console.log("Sort : "+a.start.x + " "+b.start.x);
-
-	}
-
-
-
-var lineCounter=0;
-var vis = d3.select("body").append("svg") 
-    .attr("width", 1800)
-    .attr("height", 600)
-    .attr("align","right")
-    .on("mousedown", mousedown)
-    .on("mouseup", mouseup);
+var lineCounter = 0;
+var vis = d3.select("body").append("svg").attr("width", 1800).attr("height",
+		600).attr("align", "right").on("mousedown", mousedown).on("mouseup",
+		mouseup);
 
 function mousedown() {
-    var m = d3.mouse(this);
-    lineD3 = vis.append("line")
-        .attr("x1", m[0])
-        .attr("y1", m[1])
-        .attr("x2", m[0])
-        .attr("y2", m[1]);
-    
-    vis.on("mousemove", mousemove);
+	var m = d3.mouse(this);
+	lineD3 = vis.append("line").attr("x1", m[0]).attr("y1", m[1]).attr("x2",
+			m[0]).attr("y2", m[1]);
+
+	vis.on("mousemove", mousemove);
 }
 
 function mousemove() {
-    var m = d3.mouse(this);
-    lineD3.attr("x2", m[0])
-        .attr("y2", m[1]);
-    
+	var m = d3.mouse(this);
+	lineD3.attr("x2", m[0]).attr("y2", m[1]);
 
 }
 
 function mouseup() {
-    vis.on("mousemove", null);
-    
-    var start= new Point2d(lineD3.attr("x1"),lineD3.attr("y1"));
-    var end= new Point2d(lineD3.attr("x2"),lineD3.attr("y2"));
+	vis.on("mousemove", null);
 
-//    if(start.isBigger(end))
-//    	{
-//    	
-//    	console.log("Bigger");
-//    	}
+	var start = new Point2d(lineD3.attr("x1"), lineD3.attr("y1"));
+	var end = new Point2d(lineD3.attr("x2"), lineD3.attr("y2"));
 
-    
-    Lines.push(new Line(start,end));
-    //Lines[lineCounter].swap();
-    lineCounter++;
+	//    if(start.isBigger(end))
+	//    	{
+	//    	
+	//    	console.log("Bigger");
+	//    	}
+
+	Lines.push(new Line(start, end));
+	//Lines[lineCounter].swap();
+	lineCounter++;
 
 }
