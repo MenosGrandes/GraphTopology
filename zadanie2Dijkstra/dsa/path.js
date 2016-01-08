@@ -123,7 +123,9 @@ var heapDijkstra = new BinaryHeap(function(x) {
 var heapAStar = new BinaryHeap(function(x) {
 	return x.m_distance2;
 });
-
+var heapBellman = new BinaryHeap(function(x) {
+	return x.m_distance2;
+});
 function EuclideanDistance(first, second) {
 	return Math.sqrt(Math.pow((first.x - second.x), 2)
 			+ Math.pow((first.y - second.y), 2));
@@ -268,6 +270,8 @@ var vertHeight = 20;/* w zdluż */
 var vertices = new Array();
 /* Tablice polaczen, Edge */
 var edges = new Array();
+
+
 /* Inicjalizacja vertexow, tam jest *30+16 żeby jes troche od siebie poodsuwać */
 for ( var i = 0; i < vertWidth; i++) {
 	for ( var j = 0; j < vertHeight; j++) {
@@ -348,7 +352,7 @@ console.log("Edges: " + edges.length);
 /* DIJKSTRA */
 
 var found = false; // bool sprawdzajacy czy juz trafilismy na koniec
-var interval = 50;
+var interval = 1;
 function Dijkstra(start, end) {
 
 	/* Znuluj poprzednika oraz ustaw odleglosc na infinity */
@@ -382,7 +386,7 @@ function DijkstraIter(start, end, time) {
 	}
 
 	var processedVertex = heapDijkstra.pop();
-	console.log(processedVertex.m_id);
+	//console.log(processedVertex.m_id);
 
 	if (processedVertex == end) {
 		alert("processedVertex = stop");
@@ -538,6 +542,92 @@ function AStarIter(start, end, time) {
 
 }
 
+function Johnson(start,end)
+{
+	
+	var BellmanFordMin = [];
+	/*First, a new node q is added to the graph, connected by zero-weight edges to each of the other nodes.*/
+	var v = new Vertex(new Point2d(100000,100000),9999);
+	vertices.push(v);
+	for(var i=0;i<vertices.length-1;i++)
+		{
+		v.addEdge(new Edge(999+i, v, vertices[i]));
+		}
+	
+	
+	
+	/*Second, the Bellman–Ford algorithm is used, starting from the new vertex q, to find for each vertex v the minimum weight h(v) of a path from q to v.
+	 *  If this step detects a negative cycle, the algorithm is terminated.*/
+	for(var i=0;i<vertices.length;i++)
+		{
+		BellmanFordMin.push(BellmanFord(v, vertices[i]));
+		}
+	
+	
+	/*Next the edges of the original graph are reweighted using the values computed by the Bellman–Ford algorithm: 
+	 * an edge from u to v, having length w(u,v), is given the new length w(u,v) + h(u) − h(v).*/
+	for(var i=0;i<vertices.length;i++)
+		{
+		var vert=vertices[i];
+		var neight=vert.m_neighbors;
+		for(var n=0;n<neight.length;n++)
+			{
+				
+			var vertex = neight[n].getVertex(vert);
+			vertex.m_distance=EuclideanDistance(vert, vertex) + BellmanFordMin[vert]-BellmanFordMin[vertex];
+			}
+		
+		}
+	
+	/*Finally, q is removed, and Dijkstra's algorithm is used to find the shortest paths from each node s to every other vertex in the reweighted graph.*/
+	vertices.pop();
+	Dijkstra(start, end);
+	
+	
+}
+
+function BellmanFord(start,end)
+{
+	/* Znuluj poprzednika oraz ustaw odleglosc na infinity */
+	for ( var i = 0; i < vertices.length; i++) {
+		vertices[i].m_distance = Infinity;
+		vertices[i].m_distance2 = Infinity;
+
+		vertices[i].m_ancestor = null;
+		vertices[i].m_visited = false;
+	}
+	
+	start.m_distance = 0;
+
+
+	for(var i=0;i<vertices.length;i++)
+	{
+		for(var j =0;j<vertices.length;j++)
+		{
+			var u = vertices[j];
+			var nei=u.m_neighbors;
+			for(var n =0;n<nei.length;n++)
+				{
+					var v=	nei[n].getVertex( u );
+					if(u.m_distance!=Infinity)
+						{
+						var dist=u.m_distance + EuclideanDistance(u.m_position, v.m_position);
+						if(dist<v.m_distance)
+							{
+							v.m_distance=u.m_distance +dist;
+							v.m_ancestor=u;
+							}
+						}
+				}
+			
+		}
+	}
+	
+	//console.log(vertices);
+	
+}
+
+
 function reset() {
 	heapAStar.content = [];
 	heapDijkstra.content = [];
@@ -691,9 +781,10 @@ function runD() {
 	console.log("run");
 	Dijkstra(startVertex, endVertex);
 }
-function run() {
+function runJ() {
+	redraw()
 	console.log("run");
-	AStar(startVertex, endVertex);
+	Johnson(startVertex, endVertex);
 }
 function redraw() {
 	reset();
