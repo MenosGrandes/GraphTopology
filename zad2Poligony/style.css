@@ -1,9 +1,11 @@
 @CHARSET "UTF-8";
-html,body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    background-color: white;
+/*Odpowiedzialne za miejsce rysowania*/
+.implementation {
+    text-align: center;
+   background-color: #000;
+    width: 800px;
+    height: 600px;
+
 }
 text {
     font: 8px sans-serif;
@@ -13,33 +15,11 @@ text {
 	
 	fill: black;
 }
-.lineSweepStart
-{
-	 stroke-dasharray: 4px;
-	stroke : green;
-}
-.lineSweepEnd
-{
-	 stroke-dasharray: 4px;
-	stroke : red;
-}
-.lineSweepAbove
-{
-	stroke : yellow;
-}
-.lineSweepBelow
-{
-	stroke :  #ff6600;
-}
-.click-circle {
-    fill: white;
-}
-svg {
-    border: 1px solid grey;
+.line {
+    stroke: red;
 }
 
-line {
-    stroke: steelblue;
-    stroke-width: 2px;
-    stroke-linecap: round;
+
+.click-circle {
+    fill: white;
 }
