@@ -1,14 +1,14 @@
 function lineIntersect(line1, line2) {
 
-	x1 = line1.m_start.x;
-	y1 = line1.m_start.y;
-	x2 = line1.m_end.x;
-	y2 = line1.m_end.y;
+	x1 = line1.m_start.m_x;
+	y1 = line1.m_start.m_y;
+	x2 = line1.m_end.m_x;
+	y2 = line1.m_end.m_y;
 
-	x3 = line2.m_start.x;
-	y3 = line2.m_start.y;
-	x4 = line2.m_end.x;
-	y4 = line2.m_end.y;
+	x3 = line2.m_start.m_x;
+	y3 = line2.m_start.m_y;
+	x4 = line2.m_end.m_x;
+	y4 = line2.m_end.m_y;
 
 	var x = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4))
 			/ ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
@@ -57,11 +57,12 @@ function lineIntersect(line1, line2) {
 
 	var p = new Point2d(x, y);
 	p.m_type = 3;
+
 	return p;
 }
 /*
- * Binary Search Tree implementation in JavaScript
- * Copyright (c) 2009 Nicholas C. Zakas
+ * Binary Search Tree implementation in JavaScript Copyright (c) 2009 Nicholas
+ * C. Zakas
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,14 +79,15 @@ function lineIntersect(line1, line2) {
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 /**
- * A binary search tree implementation in JavaScript. This implementation
- * does not allow duplicate values to be inserted into the tree, ensuring
- * that there is just one instance of each value.
+ * A binary search tree implementation in JavaScript. This implementation does
+ * not allow duplicate values to be inserted into the tree, ensuring that there
+ * is just one instance of each value.
+ * 
  * @class BinarySearchTree
  * @constructor
  */
@@ -93,6 +95,7 @@ function BinarySearchTree() {
 
 	/**
 	 * Pointer to root node in the tree.
+	 * 
 	 * @property _root
 	 * @type Object
 	 * @private
@@ -102,35 +105,38 @@ function BinarySearchTree() {
 
 BinarySearchTree.prototype = {
 
-	//restore constructor
+	// restore constructor
 	constructor : BinarySearchTree,
 
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Private members
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	/**
 	 * Appends some data to the appropriate point in the tree. If there are no
-	 * nodes in the tree, the data becomes the root. If there are other nodes
-	 * in the tree, then the tree must be traversed to find the correct spot
-	 * for insertion. 
-	 * @param {variant} value The data to add to the list.
+	 * nodes in the tree, the data becomes the root. If there are other nodes in
+	 * the tree, then the tree must be traversed to find the correct spot for
+	 * insertion.
+	 * 
+	 * @param {variant}
+	 *            value The data to add to the list.
 	 * @return {Void}
 	 * @method add
 	 */
 	add : function(value) {
 
-		//create a new item object, place data in
+		// create a new item object, place data in
 		var node = {
-			value : value,
+			value : value.m_id,
 			left : null,
-			right : null
+			right : null,
+			line : value
 		},
-
-		//used to traverse the structure
+		
+		// used to traverse the structure
 		current;
-
-		//special case: no items in the tree yet
+		
+		// special case: no items in the tree yet
 		if (this._root === null) {
 			this._root = node;
 		} else {
@@ -138,10 +144,10 @@ BinarySearchTree.prototype = {
 
 			while (true) {
 
-				//if the new value is less than this node's value, go left
-				if (value < current.value) {
+				// if the new value is less than this node's value, go left
+				if (value.m_id < current.value) {
 
-					//if there's no left, then the new node belongs there
+					// if there's no left, then the new node belongs there
 					if (current.left === null) {
 						current.left = node;
 						break;
@@ -149,10 +155,11 @@ BinarySearchTree.prototype = {
 						current = current.left;
 					}
 
-					//if the new value is greater than this node's value, go right
-				} else if (value > current.value) {
+					// if the new value is greater than this node's value, go
+					// right
+				} else if (value.m_id > current.value) {
 
-					//if there's no right, then the new node belongs there
+					// if there's no right, then the new node belongs there
 					if (current.right === null) {
 						current.right = node;
 						break;
@@ -160,7 +167,7 @@ BinarySearchTree.prototype = {
 						current = current.right;
 					}
 
-					//if the new value is equal to the current one, just ignore
+					// if the new value is equal to the current one, just ignore
 				} else {
 					break;
 				}
@@ -170,7 +177,9 @@ BinarySearchTree.prototype = {
 
 	/**
 	 * Determines if the given value is present in the tree.
-	 * @param {variant} value The value to find.
+	 * 
+	 * @param {variant}
+	 *            value The value to find.
 	 * @return {Boolean} True if the value is found, false if not.
 	 * @method contains
 	 */
@@ -178,33 +187,36 @@ BinarySearchTree.prototype = {
 
 		current = this._root;
 		var found = false;
-		//make sure there's a node to search
+		// make sure there's a node to search
 		while (!found && current) {
 
-			//if the value is less than the current node's, go left
+			// if the value is less than the current node's, go left
 			if (value < current.value) {
 				current = current.left;
 
-				//if the value is greater than the current node's, go right
+				// if the value is greater than the current node's, go right
 			} else if (value > current.value) {
 				current = current.right;
 
-				//values are equal, found it!
+				// values are equal, found it!
 			} else {
+				
 				return current;
 			}
 		}
 
-		//only proceed if the node was found
+		// only proceed if the node was found
 		return false;
 
 	},
 
 	/**
 	 * Removes the node with the given value from the tree. This may require
-	 * moving around some nodes so that the binary search tree remains
-	 * properly balanced.
-	 * @param {variant} value The value to remove.
+	 * moving around some nodes so that the binary search tree remains properly
+	 * balanced.
+	 * 
+	 * @param {variant}
+	 *            value The value to remove.
 	 * @return {void}
 	 * @method remove
 	 */
@@ -212,120 +224,124 @@ BinarySearchTree.prototype = {
 
 		var found = false, parent = null, current = this._root, childCount, replacement, replacementParent;
 
-		//make sure there's a node to search
+		// make sure there's a node to search
 		while (!found && current) {
 
-			//if the value is less than the current node's, go left
+			// if the value is less than the current node's, go left
 			if (value < current.value) {
 				parent = current;
 				current = current.left;
 
-				//if the value is greater than the current node's, go right
+				// if the value is greater than the current node's, go right
 			} else if (value > current.value) {
 				parent = current;
 				current = current.right;
 
-				//values are equal, found it!
+				// values are equal, found it!
 			} else {
 				found = true;
 			}
 		}
 
-		//only proceed if the node was found
+		// only proceed if the node was found
 		if (found) {
 
-			//figure out how many children
+			// figure out how many children
 			childCount = (current.left !== null ? 1 : 0)
 					+ (current.right !== null ? 1 : 0);
 
-			//special case: the value is at the root
+			// special case: the value is at the root
 			if (current === this._root) {
 				switch (childCount) {
 
-				//no children, just erase the root
+				// no children, just erase the root
 				case 0:
 					this._root = null;
 					break;
 
-				//one child, use one as the root
+				// one child, use one as the root
 				case 1:
 					this._root = (current.right === null ? current.left
 							: current.right);
 					break;
 
-				//two children, little work to do
+				// two children, little work to do
 				case 2:
 
-					//new root will be the old root's left child...maybe
+					// new root will be the old root's left child...maybe
 					replacement = this._root.left;
 
-					//find the right-most leaf node to be the real new root
+					// find the right-most leaf node to be the real new root
 					while (replacement.right !== null) {
 						replacementParent = replacement;
 						replacement = replacement.right;
 					}
 
-					//it's not the first node on the left
+					// it's not the first node on the left
 					if (replacementParent !== null) {
 
-						//remove the new root from it's previous position
+						// remove the new root from it's previous position
 						replacementParent.right = replacement.left;
 
-						//give the new root all of the old root's children
+						// give the new root all of the old root's children
 						replacement.right = this._root.right;
 						replacement.left = this._root.left;
 					} else {
 
-						//just assign the children
+						// just assign the children
 						replacement.right = this._root.right;
 					}
 
-					//officially assign new root
+					// officially assign new root
 					this._root = replacement;
 
-					//no default
+					// no default
 
 				}
 
-				//non-root values
+				// non-root values
 			} else {
 
 				switch (childCount) {
 
-				//no children, just remove it from the parent
+				// no children, just remove it from the parent
 				case 0:
-					//if the current value is less than its parent's, null out the left pointer
+					// if the current value is less than its parent's, null out
+					// the left pointer
 					if (current.value < parent.value) {
 						parent.left = null;
 
-						//if the current value is greater than its parent's, null out the right pointer
+						// if the current value is greater than its parent's,
+						// null out the right pointer
 					} else {
 						parent.right = null;
 					}
 					break;
 
-				//one child, just reassign to parent
+				// one child, just reassign to parent
 				case 1:
-					//if the current value is less than its parent's, reset the left pointer
+					// if the current value is less than its parent's, reset the
+					// left pointer
 					if (current.value < parent.value) {
 						parent.left = (current.left === null ? current.right
 								: current.left);
 
-						//if the current value is greater than its parent's, reset the right pointer
+						// if the current value is greater than its parent's,
+						// reset the right pointer
 					} else {
 						parent.right = (current.left === null ? current.right
 								: current.left);
 					}
 					break;
 
-				//two children, a bit more complicated
+				// two children, a bit more complicated
 				case 2:
 
-					//reset pointers for new traversal
+					// reset pointers for new traversal
 					replacement = current.left;
 					replacementParent = current;
 
-					//find the right-most node
+					// find the right-most node
 					while (replacement.right !== null) {
 						replacementParent = replacement;
 						replacement = replacement.right;
@@ -333,18 +349,18 @@ BinarySearchTree.prototype = {
 
 					replacementParent.right = replacement.left;
 
-					//assign children to the replacement
+					// assign children to the replacement
 					replacement.right = current.right;
 					replacement.left = current.left;
 
-					//place the replacement in the right spot
+					// place the replacement in the right spot
 					if (current.value < parent.value) {
 						parent.left = replacement;
 					} else {
 						parent.right = replacement;
 					}
 
-					//no default
+					// no default
 
 				}
 
@@ -355,8 +371,9 @@ BinarySearchTree.prototype = {
 	},
 
 	/**
-	 * Returns the number of items in the tree. To do this, a traversal
-	 * must be executed.
+	 * Returns the number of items in the tree. To do this, a traversal must be
+	 * executed.
+	 * 
 	 * @return {int} The number of items in the tree.
 	 * @method size
 	 */
@@ -372,6 +389,7 @@ BinarySearchTree.prototype = {
 
 	/**
 	 * Converts the tree into an array.
+	 * 
 	 * @return {Array} An array containing all of the data in the tree.
 	 * @method toArray
 	 */
@@ -387,6 +405,7 @@ BinarySearchTree.prototype = {
 
 	/**
 	 * Converts the list into a string representation.
+	 * 
 	 * @return {String} A string representation of the list.
 	 * @method toString
 	 */
@@ -395,38 +414,254 @@ BinarySearchTree.prototype = {
 	},
 
 	/**
-	 * Traverses the tree and runs the given method on each node it comes
-	 * across while doing an in-order traversal.
-	 * @param {Function} process The function to run on each node.
+	 * Traverses the tree and runs the given method on each node it comes across
+	 * while doing an in-order traversal.
+	 * 
+	 * @param {Function}
+	 *            process The function to run on each node.
 	 * @return {void}
 	 * @method traverse
 	 */
 	traverse : function(process) {
 
-		//helper function
+		// helper function
 		function inOrder(node) {
 			if (node) {
 
-				//traverse the left subtree
+				// traverse the left subtree
 				if (node.left !== null) {
 					inOrder(node.left);
 				}
 
-				//call the process method on this node
+				// call the process method on this node
 				process.call(this, node);
 
-				//traverse the right subtree
+				// traverse the right subtree
 				if (node.right !== null) {
 					inOrder(node.right);
 				}
 			}
 		}
 
-		//start with the root
+		// start with the root
 		inOrder(this._root);
 	}
 };
 
+// /////////////////////////////////////////////////////////////////
+//
+// function Sweep(polygon)
+// {
+//	
+// // for(var i=0;i<polygon.m_lines.length;i++)
+// // {
+// // queuePoints.push(polygon.m_lines[i].m_start.x);
+// // queuePoints.push(polygon.m_lines[i].m_end.x);
+// // }
+// // console.log(queuePoints.content);
+// }
+//
+//
+// var queuePoints = new BinaryHeap(function(point) {
+// console.log(point.m_x);
+// return point.m_x;
+// });
+// var point=new Point2d(10, 1);
+// var point2=new Point2d(0, 1);
+// var point3=new Point2d(1, 1);
+//
+// queuePoints.push(point);
+// queuePoints.push(point2);
+// queuePoints.push(point3);
+// console.log("adsadsa");
+// console.log(queuePoints.content);
+//
+// var SL = new BinarySearchTree(); // trzyma w sobie wszystkie linie
+//
+// var IL = [];
+//
+// //var queue2=new BinaryHeap(function(x){return x.m_id;})
+//
+// // ///////////////////////////////////////////////////////////////
+//
+
+
+var a =new BinarySearchTree()
+a.add(2);
+a.add(3);
+a.add(5);
+a.add(11);
+a.add(0);
+a.add(1);
+
+console.log(a.toArray());
+
+function SweepLine() {
+
+}
+SweepLine.prototype = {
+
+	sweep : function(polygon) {
+
+		m_EQ = new BinaryHeap(function(x) {
+			return x.m_x;
+		});
+		SL = new BinarySearchTree();
+		var lines = polygon.m_lines;
+
+		for ( var i = 0; i < lines.length; i++) {
+			m_EQ.push(lines[i].m_start);
+			m_EQ.push(lines[i].m_end);
+		}
+
+		//	while(m_EQ.size()>0)
+		//	{
+		//			
+		//			console.log(m_EQ.pop());
+		//	}
+
+		var i = 0;
+		while (m_EQ.size() > 0) {
+
+			var currentPoint = m_EQ.pop();
+			console.log("CurrentPoint");
+			console.log(currentPoint);
+			//console.log("SL");
+			//console.log(SL.toArray());
+			// lewy
+			if (currentPoint.m_type == 0) {
+				console.log("LEWY");
+				var line = currentPoint.m_Line;
+				
+				console.log("SL TO ARRAY");
+				SL.add(line);
+				console.log(SL.toArray());
+				
+				
+				
+				var segmentA = SL.contains(line).right;
+				var segmentB = SL.contains(line).left;
+//				console.log("segmentAB");
+//				console.log(segmentA);
+//				console.log(segmentB);
+
+				if (segmentA != null) {
+					var inter = lineIntersect(line, segmentA.line)
+					if (inter != false) {
+
+						m_EQ.push(inter);
+					}
+				}
+				if (segmentB != null) {
+					var inter2 = lineIntersect(line, segmentB.line);
+
+					if (inter2 != false) {
+						m_EQ.push(inter2);
+					}
+				}
+
+			}// prawy
+			else if (currentPoint.m_type == 1) {
+				console.log("Prawy");
+				var line = currentPoint.m_Line;
+
+				var segmentA = SL.contains(line).right;
+				var segmentB = SL.contains(line).left;
+				console.log("REMOVE SL")
+				SL.remove(line);
+				console.log(SL.toArray());
+				if (segmentA != null && segmentB != null) {
+					var inter = lineIntersect(segmentA.line, segmentB.line);
+
+					var foundPointInEq = false;
+					for ( var i = 0; i < m_EQ.content.length; i++) {
+						if (inter.m_x == m_EQ.content[i].m_x
+								&& inter.m_y == m_EQ.content[i].m_y) {
+							foundPointInEq = true;
+							break;
+						}
+					}
+
+					if (inter != false && foundPointInEq == false) {
+						m_EQ.push(inter);
+						console.log("DUPA");
+
+					}
+				}
+			} else// intersekcja
+			{
+				drawHitPoint(currentPoint.m_x, currentPoint.m_y, 5)
+				//console.log(currentPoint)
+				//return true;
+			}
+			//i++;
+			//console.log();
+		}
+		return false;
+
+	}
+}
+
+var s = new SweepLine();
+
+function LineToLine() {
+	for ( var i = 0; i < polyArray.length; i++) {
+		polyArray[i].checkComplex();
+		var lines = polyArray[i].m_lines;
+		// console.log(polyArray[i]);
+		for ( var i = 0; i < lines.length; i++) {
+
+			for ( var j = 0; j < lines.length; j++) {
+				var inter = lineIntersect(lines[i], lines[j]);
+				if (inter != false) {
+					drawHitPoint(inter.x, inter.y, 3);
+				}
+				// console.log(inter);
+			}
+		}
+	}
+}
+
+function check() {
+
+	// LineToLine();
+	arrayOfPolygons[0].checkComplex();
+	// Sweep(arrayOfPolygons[0]);
+	console.log(s.sweep(arrayOfPolygons[0]));
+	// console.log(arrayOfPolygons);
+
+}
+function myFunction() {
+	svg.selectAll("*").remove();
+	arrayOfPolygons = [];
+}
+
+/*
+ * Zwyklu punkt 2d m_type 0 - lewy m_type 1 - prawy
+ * 
+ */
+function Point2d(x, y) {
+	this.m_x = x;
+	this.m_y = y;
+	this.m_type = 0;
+	this.m_Line = null;
+}
+Point2d.prototype = {
+	toString : function() {
+		return this.m_x + " " + this.m_y;
+
+	},
+	setLine : function(id) {
+		this.m_Line = id;
+	},
+	clone : function() {
+		var p2 = new Point2d(this.m_x, this.m_y);
+		p2.setLine(this.m_Line);
+		p2.m_type = this.m_type;
+		return p2;
+	}
+
+}
 function BinaryHeap(scoreFunction) {
 	this.content = [];
 	this.scoreFunction = scoreFunction;
@@ -523,7 +758,6 @@ BinaryHeap.prototype = {
 			}
 			// Do the same checks for the other child.
 			if (child2N < length) {
-				
 				var child2 = this.content[child2N], child2Score = this
 						.scoreFunction(child2);
 				if (child2Score < (swap == null ? elemScore : child1Score))
@@ -541,147 +775,6 @@ BinaryHeap.prototype = {
 		}
 	}
 };
-
-var queuePoints = new BinaryHeap(function(x) {
-	return x.x;
-});
-var SL = new BinarySearchTree();
-
-var IL = [];
-
-//var queue2=new BinaryHeap(function(x){return x.m_id;})
-
-// ///////////////////////////////////////////////////////////////
-
-function SweepLine() {
-	this.m_lines = [];
-
-}
-SweepLine.prototype = {
-
-	sweep : function(queue) {
-		
-		
-		var i = 0;
-		while (queue.size() != 0) {
-			console.log(i);
-			console.log(queue.content);
-			var currentPoint = queue.pop();
-			// lewy
-			if (currentPoint.m_type == 0) {
-				var line = currentPoint.m_Line;
-				SL.add(line);
-				var segmentA = SL.contains(line).right;
-				var segmentB = SL.contains(line).left;
-				if (segmentA != null && segmentB != null) {
-					var inter = lineIntersect(line, segmentA)
-					var inter2 = lineIntersect(line, segmentB);
-
-					if (inter != false) {
-						queue.push(inter);
-					}
-					if (inter2 != false) {
-						queue.push(inter2);
-					}
-				}
-			}//prawy
-			else if (currentPoint.m_type == 1) {
-				var line = currentPoint.m_Line;
-
-				var segmentA = SL.contains(line).right;
-				var segmentB = SL.contains(line).left;
-				SL.remove(line);
-				if (segmentA != null && segmentB != null) {
-					var inter = lineIntersect(segmentA, segmentB);
-
-					var foundPointInEq = false;
-					for ( var i = 0; i < queue.content.length; i++) {
-						if (inter.x == queue.content[i].x && inter.y == queue.content[i].y) {
-							foundPointInEq = true;
-							break;
-						}
-					}
-
-					if (inter != false && foundPointInEq == false) {
-						queue.push(inter);
-					}
-				}
-			} else//intersekcja
-			{
-				return true;
-			}
-			i++;
-			console.log();
-		}
-		return false;
-
-	}
-}
-
-var s = new SweepLine();
-
-function LineToLine()
-{
-	for(var i=0;i<polyArray.length;i++){
-	polyArray[i].checkComplex();
-	var lines = polyArray[i].m_lines;
-	//console.log(polyArray[i]);
-	for(var i=0;i<lines.length;i++)
-		{
-		
-			for(var j=0;j<lines.length;j++)
-			{
-				var inter=lineIntersect(lines[i],lines[j]);
-				if(inter!=false)
-					{
-					drawHitPoint(inter.x,inter.y,3);
-					}
-				//console.log(inter);
-			}
-		}
-	}
-	}
-
-
-function check() {
-
-	
-LineToLine();
-	
-	
-}
-function myFunction() {
-	svg.selectAll("*").remove();
-	arrayOfPolygons = [];
-}
-
-/* Zwyklu punkt 2d 
- *  m_type 0 - lewy
- *  m_type 1 - prawy
- * 
- * */
-function Point2d(x, y) {
-	this.x = x;
-	this.y = y;
-	this.m_type = 0;
-	this.m_Line = null;
-}
-Point2d.prototype = {
-	toString : function() {
-		return this.x + " " + this.y;
-
-	},
-	setLine : function(id) {
-		this.m_Line = id;
-	},
-	clone : function() {
-		var p2 = new Point2d(this.x, this.y);
-		p2.setLine(this.m_Line);
-		p2.m_type = this.m_type;
-		return p2;
-	}
-
-}
 /* Polygon */
 function Polygon(id) {
 	this.m_id = id;
@@ -697,7 +790,7 @@ function Line(id, polygonID, start, end) {
 }
 Line.prototype = {
 	checkLeft : function() {
-		if (this.m_start.x > this.m_end.x) {
+		if (this.m_start.m_x > this.m_end.m_x) {
 			var tmp = this.m_start;
 			this.m_start = this.m_end;
 			this.m_end = tmp;
@@ -708,7 +801,7 @@ Line.prototype = {
 		this.m_end.setLine(this);
 	}
 }
-
+//
 var arrayOfPolygons = new Array();
 Polygon.prototype = {
 	checkComplex : function() {
@@ -733,13 +826,10 @@ Polygon.prototype = {
 		});
 		console.log(lines);
 		for ( var i = 0; i < lines.length; i++) {
-			//console.log(lines[i].m_end);
-			queuePoints.push(lines[i].m_end);
-			queuePoints.push(lines[i].m_start);
-			this.m_lines.push(lines[i]);
 
+			this.m_lines.push(lines[i]);
 		}
-		//console.log(que)
+		// console.log(que)
 
 	},
 	addPoint : function(point) {
@@ -753,7 +843,7 @@ Polygon.prototype = {
 		svg.selectAll("polygon").data(arrayOfPolygons).enter()
 				.append("polygon").attr("points", function(d) {
 					return d.m_points.map(function(d) {
-						return [ d.x, d.y ].join(",");
+						return [ d.m_x, d.m_y ].join(",");
 					}).join(" ");
 				}).attr("stroke", "white").attr("stroke-width", 2).attr("fill",
 						"none");
@@ -775,8 +865,8 @@ function drawCircle(x, y, size) {
 
 }
 function drawHitPoint(x, y, size) {
-	svg.append("circle").attr("cx", x).attr("cy",
-			y).attr("r", size).attr("fill","red");
+	svg.append("circle").attr("cx", x).attr("cy", y).attr("r", size).attr(
+			"fill", "red");
 
 }
 svg.on('click', function() {
@@ -797,3 +887,17 @@ $(document).keypress(function(event) {
 	}
 
 });
+
+var a = new BinaryHeap(function(x) {
+	return x.m_x
+});
+
+a.push(new Point2d(2, 1));
+a.push(new Point2d(10, 2));
+a.push(new Point2d(4, 2));
+
+a.push(new Point2d(0, 2));
+
+a.push(new Point2d(11, 2));
+
+console.log(a.content);
